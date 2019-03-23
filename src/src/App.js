@@ -48,7 +48,12 @@ const DATA = [
 export default class App extends Component {
   renderCard(item) {
     return (
-      <View style={styles.card}>
+      <View
+        key={item => {
+          return item.id;
+        }}
+        style={styles.card}
+      >
         <View style={styles.cardContainer}>
           <Image style={styles.cardImage} source={{ uri: item.uri }} />
         </View>
