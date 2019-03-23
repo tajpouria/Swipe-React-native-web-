@@ -8,6 +8,6 @@ export default class Deck extends Component {
     });
   }
   render() {
-    return <View>{this.renderCards()}</View>;
+    return <View style={{ flex: 1 }}>{this.renderCards()}</View>;
   }
 }
