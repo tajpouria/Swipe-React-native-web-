@@ -26,10 +26,10 @@ export default class Deck extends Component {
         } else {
           this.resetPosition();
         }
-        this.resetPosition();
+        //this.resetPosition();
       }
     });
-    this.state = { panResponder, position };
+    this.state = { panResponder, position, index: 0 };
   }
 
   forceSwipe(direction) {
@@ -44,11 +44,13 @@ export default class Deck extends Component {
     const { onSwipeLeft, onSwipeRight, data } = this.props;
     const item = data[this.state.index];
 
-    direction = "right" ? onSwipeRight(item) : onSwipeLeft(item);
+    direction === "right" ? onSwipeRight(item) : onSwipeLeft(item);
+    this.state.position.setValue({ x: 0, y: 0 });
+    this.setState({ index: this.state.index + 1 });
   }
 
   resetPosition() {
-    return Animated.spring(this.state.position, {
+    Animated.spring(this.state.position, {
       toValue: { x: 0, y: 0 }
     }).start();
   }
@@ -59,13 +61,16 @@ export default class Deck extends Component {
       outputRange: ["-120deg", "0deg", "120deg"]
     });
     return {
-      ...this.state.position.getLayout(),
+      ...position.getLayout(),
       transform: [{ rotate }]
     };
   }
   renderCards() {
-    return this.props.data.map((item, index) => {
-      if (index === 0) {
+    return this.props.data.map((item, i) => {
+      if (i < this.state.index) {
+        return null;
+      }
+      if (i === this.state.index) {
         return (
           <Animated.View
             key={item.id}
@@ -76,7 +81,7 @@ export default class Deck extends Component {
           </Animated.View>
         );
       }
-      return this.props.render(item);
+      // this.props.render(item);
     });
   }
   render() {
