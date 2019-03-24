@@ -14,20 +14,29 @@ export default class Deck extends Component {
     });
     this.state = { panResponder, position };
   }
+  getCardStyle() {
+    return {
+      ...this.state.position.getLayout(),
+      transform: [{ rotate: "-45deg" }]
+    };
+  }
   renderCards() {
-    return this.props.data.map(item => {
+    return this.props.data.map((item, index) => {
+      if (index === 0) {
+        return (
+          <Animated.View
+            key={item.id}
+            style={this.getCardStyle()}
+            {...this.state.panResponder.panHandlers}
+          >
+            {this.props.render(item)}
+          </Animated.View>
+        );
+      }
       return this.props.render(item);
     });
   }
   render() {
-    return (
-      <Animated.View
-        style={this.state.position.getLayout()}
-        {...this.state.panResponder.panHandlers}
-      >
-        {this.renderCards()}
-      </Animated.View>
-      //dsa
-    );
+    return <View>{this.renderCards()}</View>;
   }
 }
