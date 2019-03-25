@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import { View, Image, Text } from "react-native";
+import { Card, Button, Icon } from "react-native-elements";
 import Deck from "./Deck";
 
 const DATA = [
@@ -48,30 +49,29 @@ const DATA = [
 export default class App extends Component {
   renderCard(item) {
     return (
-      <View
-        key={item => {
-          return item.id;
-        }}
-        style={styles.card}
-      >
-        <View style={styles.cardContainer}>
-          <Image style={styles.cardImage} source={{ uri: item.uri }} />
-        </View>
-        <View>
-          <Text>{item.text}</Text>
-          <Text>I can customize the Card further.</Text>
-          <Button title="< > View Now!" />
-        </View>
-      </View>
+      <Card title="Deck Cards" image={{ uri: item.uri }}>
+        <Text style={{ marginBottom: 10 }}>{item.text}</Text>
+        <Button
+          icon={<Icon name="code" color="#ffffff" />}
+          backgroundColor="#03A9F4"
+          buttonStyle={{
+            borderRadius: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 0
+          }}
+          title="VIEW NOW"
+        />
+      </Card>
     );
   }
 
   renderNoMoreCard() {
     return (
-      <View style={styles.card}>
-        <Text style={{ marginBottom: 10 }}>There's no more content here!</Text>
-        <Button title="Get more!" />
-      </View>
+      <Card title="All DONE !">
+        <Text>There is no more content to show!</Text>
+        <Button title="Reload more!" />
+      </Card>
     );
   }
   render() {
@@ -84,19 +84,3 @@ export default class App extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderColor: "grey",
-    borderWidth: 2,
-    margin: 2
-  },
-  cardImage: {
-    height: 200,
-    width: 365
-  },
-  cardContainer: {
-    flex: 1,
-    marginBottom: 10
-  }
-});
